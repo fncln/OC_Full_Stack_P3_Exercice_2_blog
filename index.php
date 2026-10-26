@@ -59,6 +59,11 @@ try {
             $adminController->disconnectUser();
             break;
 
+        case 'monitoring':
+            $adminController = new AdminController();
+            $adminController->showMonitoring();
+            break;
+
         case 'showUpdateArticleForm':
             $adminController = new AdminController();
             $adminController->showUpdateArticleForm();

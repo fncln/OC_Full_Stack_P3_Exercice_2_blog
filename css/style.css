@@ -337,6 +337,44 @@ a.info {
     border: 1px solid var(--backgroundColor);
 }
 
+/**
+ * Page de monitoring
+ */
+ 
+.monitoringTable {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+ 
+.monitoringTable caption {
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--dateColor);
+}
+ 
+.monitoringTable th,
+.monitoringTable td {
+    padding: 15px 20px;
+    text-align: left;
+}
+ 
+.monitoringTable th {
+    color: white;
+    background-color: var(--commentColor);
+}
+ 
+.monitoringTable .number {
+    text-align: center;
+}
+ 
+/* Une ligne sur deux a un fond de couleur différent, pour faciliter la lecture. */
+.monitoringTable tbody tr:nth-child(even) {
+    background-color: var(--headerPaleColor);
+}
+
 /** 
  * Footer global de la page.
  */

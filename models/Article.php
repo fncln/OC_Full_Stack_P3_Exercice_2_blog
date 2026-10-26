@@ -146,4 +146,22 @@
     {
         return $this->views;
     }
+
+    /**
+     * Setter pour le nombre de commentaires.
+     * @param int $commentCount
+     */
+    public function setCommentCount(int $commentCount) : void 
+    {
+        $this->commentCount = $commentCount;
+    }
+ 
+    /**
+     * Getter pour le nombre de commentaires.
+     * @return int
+     */
+    public function getCommentCount() : int 
+    {
+        return $this->commentCount;
+    }
  }
