@@ -83,6 +83,19 @@ class ArticleManager extends AbstractEntityManager
     }
 
     /**
+     * Ajoute 1 au nombre de vues d'un article.
+     * L'addition est faite directement par MySQL (views = views + 1) : 
+     * si deux visiteurs arrivent en même temps, aucune vue n'est perdue.
+     * @param int $id : l'id de l'article vu.
+     * @return void
+     */
+    public function incrementViews(int $id) : void
+    {
+        $sql = "UPDATE article SET views = views + 1 WHERE id = :id";
+        $this->db->query($sql, ['id' => $id]);
+    }
+
+    /**
      * Supprime un article.
      * @param int $id : l'id de l'article à supprimer.
      * @return void

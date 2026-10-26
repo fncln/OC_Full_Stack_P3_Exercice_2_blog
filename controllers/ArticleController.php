@@ -31,6 +31,11 @@ class ArticleController
             throw new Exception("L'article demandé n'existe pas.");
         }
 
+        // Compte une vue uniquement pour les visiteurs : Ignore les visites de l'admin.
+        if (empty($_SESSION['user'])) {
+            $articleManager->incrementViews($id);
+        }
+
         $commentManager = new CommentManager();
         $comments = $commentManager->getAllCommentsByArticleId($id);
 
