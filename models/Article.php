@@ -106,11 +106,12 @@
 
     /**
      * Setter pour la date de mise à jour. Si la date est une string, on la convertit en DateTime.
-     * @param string|DateTime $dateUpdate
+     * La date peut être null : un article qui n'a jamais été modifié n'a pas de date de mise à jour.
+     * @param string|DateTime|null $dateUpdate
      * @param string $format : le format pour la convertion de la date si elle est une string.
      * Par défaut, c'est le format de date mysql qui est utilisé.
      */
-    public function setDateUpdate(string|DateTime $dateUpdate, string $format = 'Y-m-d H:i:s') : void 
+    public function setDateUpdate(string|DateTime|null $dateUpdate, string $format = 'Y-m-d H:i:s') : void 
     {
         if (is_string($dateUpdate)) {
             $dateUpdate = DateTime::createFromFormat($format, $dateUpdate);
