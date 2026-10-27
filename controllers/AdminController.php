@@ -33,15 +33,35 @@ class AdminController {
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
+
+        // Les colonnes triables : la clé est utilisée dans l'URL, la valeur est affichée dans le tableau.
+        $columns = [
+            'title' => 'Titre',
+            'date' => 'Date de publication',
+            'views' => 'Nombre de vues',
+            'comments' => 'Nombre de commentaires'
+        ];
  
-        // On récupère les articles avec leur nombre de commentaires.
+        // On récupère le tri demandé dans l'URL (par défaut : les articles les plus récents en premier).
+        $column = Utils::request('column', 'date');
+        $order = Utils::request('order', 'desc');
+ 
+        // Si une valeur de l'URL est incorrecte, on la remplace par la valeur par défaut.
+        $column = in_array($column, array_keys($columns), true) ? $column : 'date';
+        $order = in_array($order, ['asc', 'desc'], true) ? $order : 'desc';
+ 
+        // On récupère les articles avec leur nombre de commentaires, puis on les trie.
         $articleManager = new ArticleManager();
         $articles = $articleManager->getAllArticlesWithCommentCount();
- 
+        $articles = $this->sortArticles($articles, $column, $order);
+
         // On affiche la page de monitoring.
         $view = new View("Monitoring");
         $view->render("monitoring", [
-            'articles' => $articles
+            'articles' => $articles,
+            'columns' => $columns,
+            'column' => $column,
+            'order' => $order
         ]);
     }
 
@@ -55,6 +75,37 @@ class AdminController {
         if (!isset($_SESSION['user'])) {
             Utils::redirect("connectionForm");
         }
+    }
+
+    /**
+     * Trie un tableau d'articles selon une colonne et un ordre.
+     * @param array $articles : le tableau d'objets Article à trier.
+     * @param string $column : la colonne de tri (title, date, views ou comments).
+     * @param string $order : l'ordre de tri (asc ou desc).
+     * @return array : le tableau trié.
+     */
+    private function sortArticles(array $articles, string $column, string $order) : array
+    {
+        // Le Collator compare les textes comme en français (accents et majuscules bien gérés).
+        $collator = new Collator('fr_FR');
+ 
+        // usort() trie en appelant cette fonction sur deux articles à la fois.
+        // Elle renvoie un nombre négatif si le premier passe avant le second, 0 si égalité, positif sinon.
+        usort($articles, function (Article $first, Article $second) use ($column, $collator) {
+            return match ($column) {
+                'title' => $collator->compare($first->getTitle(), $second->getTitle()),
+                'date' => $first->getDateCreation() <=> $second->getDateCreation(),
+                'views' => $first->getViews() <=> $second->getViews(),
+                'comments' => $first->getCommentCount() <=> $second->getCommentCount()
+            };
+        });
+ 
+        // Le tri est croissant par défaut : pour l'ordre décroissant, on inverse le tableau.
+        if ($order === 'desc') {
+            $articles = array_reverse($articles);
+        }
+ 
+        return $articles;
     }
 
     /**
@@ -192,7 +243,7 @@ class AdminController {
         // On supprime l'article.
         $articleManager = new ArticleManager();
         $articleManager->deleteArticle($id);
-       
+
         // On redirige vers la page d'administration.
         Utils::redirect("admin");
     }
