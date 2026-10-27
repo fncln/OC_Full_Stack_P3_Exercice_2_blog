@@ -64,6 +64,21 @@ try {
             $adminController->showMonitoring();
             break;
 
+        case 'showComments':
+            $adminController = new AdminController();
+            $adminController->showComments();
+            break;
+
+        case 'confirmDeleteComment':
+            $adminController = new AdminController();
+            $adminController->confirmDeleteComment();
+            break;
+
+        case 'deleteComment':
+            $adminController = new AdminController();
+            $adminController->deleteComment();
+            break;
+
         case 'showUpdateArticleForm':
             $adminController = new AdminController();
             $adminController->showUpdateArticleForm();

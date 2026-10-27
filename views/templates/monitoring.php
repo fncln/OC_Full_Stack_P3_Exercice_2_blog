@@ -15,7 +15,7 @@
 <h2>Monitoring des articles</h2>
 
 <table class="monitoringTable">
-    <caption>Cliquez sur le titre d'une colonne pour trier le tableau.</caption>
+    <caption>Cliquez sur le titre d'une colonne pour trier le tableau, , ou sur un nombre de commentaires pour les consulter et les supprimer.</caption>
     <thead>
         <tr>
             <?php foreach ($columns as $key => $label) { 
@@ -46,7 +46,8 @@
                 <td><?= htmlspecialchars($article->getTitle()) ?></td>
                 <td><?= ucfirst(Utils::convertDateToFrenchFormat($article->getDateCreation())) ?></td>
                 <td class="number"><?= $article->getViews() ?></td>
-                <td class="number"><?= $article->getCommentCount() ?></td>
+                <td><a href="index.php?action=showComments&amp;id=<?= $article->getId() ?>"
+                title="Gérer les commentaires de l'article <?= htmlspecialchars($article->getTitle()) ?>"><?= $article->getCommentCount() ?></a></td>
             </tr>
         <?php } ?>
     </tbody>

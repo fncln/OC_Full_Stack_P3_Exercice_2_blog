@@ -388,6 +388,60 @@ a.info {
     background-color: var(--headerPaleColor);
 }
 
+/* Le nombre de commentaires est un lien : on le souligne pour qu'il se voit. */
+.monitoringTable td a {
+    color: var(--dateColor);
+    text-decoration: underline;
+}
+
+/* Page des commentaires d'un article (admin) : le bouton "Supprimer" est à droite du commentaire. */
+.adminComments .detailComment {
+    flex-grow: 1;
+}
+
+.adminComments .deleteComment {
+    align-self: flex-start;
+    margin-left: 20px;
+}
+
+/* La liste n'a plus de marge en bas : l'espace avant le bouton de retour vient uniquement du bouton. */
+.adminComments ul {
+    margin-bottom: 0;
+}
+
+.adminComments li:last-child {
+    margin-bottom: 0;
+}
+
+/* Le bouton de retour est un lien : on le passe en inline-block pour que son espacement soit pris en compte. */
+.adminComments .backLink {
+    display: inline-block;
+    margin-top: 30px;
+}
+
+/* Boutons de la page de confirmation de suppression. */
+.confirmButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.confirmButtons .submit {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+/* Message d'avertissement : rouge foncé sur fond clair (contraste suffisant), en gras. */
+.warningMessage {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #b00020;
+    background-color: var(--backgroundColor);
+}
+
 /** 
  * Footer global de la page.
  */

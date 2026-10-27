@@ -65,6 +65,88 @@ class AdminController {
         ]);
     }
 
+        /**
+     * Affiche les commentaires d'un article, avec un bouton pour supprimer chacun.
+     * @return void
+     */
+    public function showComments() : void
+    {
+        // On vérifie que l'utilisateur est connecté.
+        $this->checkIfUserIsConnected();
+
+        // On récupère l'article demandé.
+        $idArticle = Utils::request("id", -1);
+        $articleManager = new ArticleManager();
+        $article = $articleManager->getArticleById($idArticle);
+
+        if ($article === null) {
+            throw new Exception("L'article demandé n'existe pas.");
+        }
+
+        // On récupère ses commentaires.
+        $commentManager = new CommentManager();
+        $comments = $commentManager->getAllCommentsByArticleId($idArticle);
+
+        // On affiche la page.
+        $view = new View("Commentaires");
+        $view->render("adminComments", [
+            'article' => $article,
+            'comments' => $comments
+        ]);
+    }
+
+    /**
+     * Affiche la page qui demande de confirmer la suppression d'un commentaire.
+     * @return void
+     */
+    public function confirmDeleteComment() : void
+    {
+        // On vérifie que l'utilisateur est connecté.
+        $this->checkIfUserIsConnected();
+
+        // On récupère le commentaire demandé.
+        $id = Utils::request("id", -1);
+        $commentManager = new CommentManager();
+        $comment = $commentManager->getCommentById($id);
+
+        if ($comment === null) {
+            throw new Exception("Le commentaire demandé n'existe pas.");
+        }
+
+        // On affiche la page de confirmation.
+        $view = new View("Suppression d'un commentaire");
+        $view->render("confirmDeleteComment", [
+            'comment' => $comment
+        ]);
+    }
+
+    /**
+     * Supprime un commentaire, puis revient à la liste des commentaires de son article.
+     * @return void
+     */
+    public function deleteComment() : void
+    {
+        // On vérifie que l'utilisateur est connecté.
+        $this->checkIfUserIsConnected();
+
+        // On récupère le commentaire demandé.
+        $id = Utils::request("id", -1);
+        $commentManager = new CommentManager();
+        $comment = $commentManager->getCommentById($id);
+
+        if ($comment === null) {
+            throw new Exception("Le commentaire demandé n'existe pas.");
+        }
+
+        // On supprime uniquement si la demande vient du formulaire de confirmation (méthode POST).
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $commentManager->deleteComment($comment);
+        }
+
+        // On retourne à la liste des commentaires de l'article.
+        Utils::redirect("showComments", ['id' => $comment->getIdArticle()]);
+    }
+
     /**
      * Vérifie que l'utilisateur est connecté.
      * @return void
