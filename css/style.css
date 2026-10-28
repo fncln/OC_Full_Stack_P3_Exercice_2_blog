@@ -337,6 +337,111 @@ a.info {
     border: 1px solid var(--backgroundColor);
 }
 
+/**
+ * Page de monitoring
+ */
+
+.monitoringTable {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.monitoringTable caption {
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 14px;
+    font-style: italic;
+    color: var(--dateColor);
+}
+
+.monitoringTable th,
+.monitoringTable td {
+    padding: 15px 20px;
+    text-align: left;
+}
+ 
+.monitoringTable th {
+    color: white;
+    background-color: var(--commentPaleColor);
+}
+
+/* Les colonnes 3 et 4 (vues et commentaires) sont centrées. */
+.monitoringTable th:nth-child(n+3),
+.monitoringTable td:nth-child(n+3) {
+    text-align: center;
+}
+
+/* Les titres de colonnes sont des liens de tri. */
+.monitoringTable th a {
+    color: white;
+    text-decoration: none;
+}
+ 
+.monitoringTable th a:hover,
+.monitoringTable th a:focus {
+    text-decoration: underline;
+}
+
+/* Une ligne sur deux a un fond de couleur différent, pour faciliter la lecture. */
+.monitoringTable tbody tr:nth-child(even) {
+    background-color: var(--headerPaleColor);
+}
+
+/* Le nombre de commentaires est un lien : on le souligne pour qu'il se voit. */
+.monitoringTable td a {
+    color: var(--dateColor);
+    text-decoration: underline;
+}
+
+/* Page des commentaires d'un article (admin) : le bouton "Supprimer" est à droite du commentaire. */
+.adminComments .detailComment {
+    flex-grow: 1;
+}
+
+.adminComments .deleteComment {
+    align-self: flex-start;
+    margin-left: 20px;
+}
+
+/* La liste n'a plus de marge en bas : l'espace avant le bouton de retour vient uniquement du bouton. */
+.adminComments ul {
+    margin-bottom: 0;
+}
+
+.adminComments li:last-child {
+    margin-bottom: 0;
+}
+
+/* Le bouton de retour est un lien : on le passe en inline-block pour que son espacement soit pris en compte. */
+.adminComments .backLink {
+    display: inline-block;
+    margin-top: 30px;
+}
+
+/* Boutons de la page de confirmation de suppression. */
+.confirmButtons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.confirmButtons .submit {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+/* Message d'avertissement : rouge foncé sur fond clair (contraste suffisant), en gras. */
+.warningMessage {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: #b00020;
+    background-color: var(--backgroundColor);
+}
+
 /** 
  * Footer global de la page.
  */

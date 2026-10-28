@@ -1,7 +1,9 @@
 <?php
+
     /**
      * Ce template affiche la page "à propos".
      */
+
 ?>
 
 <article class="mainArticle">
