@@ -1,15 +1,16 @@
-<?php 
+<?php
+
 /**
  * Contrôleur de la partie admin.
  */
- 
-class AdminController {
 
+class AdminController
+{
     /**
      * Affiche la page d'administration.
      * @return void
      */
-    public function showAdmin() : void
+    public function showAdmin(): void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
@@ -29,7 +30,7 @@ class AdminController {
      * Affiche la page de monitoring : les statistiques de chaque article.
      * @return void
      */
-    public function showMonitoring() : void
+    public function showMonitoring(): void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
@@ -41,15 +42,15 @@ class AdminController {
             'views' => 'Nombre de vues',
             'comments' => 'Nombre de commentaires'
         ];
- 
+
         // On récupère le tri demandé dans l'URL (par défaut : les articles les plus récents en premier).
         $column = Utils::request('column', 'date');
         $order = Utils::request('order', 'desc');
- 
+
         // Si une valeur de l'URL est incorrecte, on la remplace par la valeur par défaut.
         $column = in_array($column, array_keys($columns), true) ? $column : 'date';
         $order = in_array($order, ['asc', 'desc'], true) ? $order : 'desc';
- 
+
         // On récupère les articles avec leur nombre de commentaires, puis on les trie.
         $articleManager = new ArticleManager();
         $articles = $articleManager->getAllArticlesWithCommentCount();
@@ -69,7 +70,7 @@ class AdminController {
      * Affiche les commentaires d'un article, avec un bouton pour supprimer chacun.
      * @return void
      */
-    public function showComments() : void
+    public function showComments(): void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
@@ -99,7 +100,7 @@ class AdminController {
      * Affiche la page qui demande de confirmer la suppression d'un commentaire.
      * @return void
      */
-    public function confirmDeleteComment() : void
+    public function confirmDeleteComment(): void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
@@ -124,7 +125,7 @@ class AdminController {
      * Supprime un commentaire, puis revient à la liste des commentaires de son article.
      * @return void
      */
-    public function deleteComment() : void
+    public function deleteComment(): void
     {
         // On vérifie que l'utilisateur est connecté.
         $this->checkIfUserIsConnected();
@@ -151,7 +152,7 @@ class AdminController {
      * Vérifie que l'utilisateur est connecté.
      * @return void
      */
-    private function checkIfUserIsConnected() : void
+    private function checkIfUserIsConnected(): void
     {
         // On vérifie que l'utilisateur est connecté.
         if (!isset($_SESSION['user'])) {
@@ -166,11 +167,11 @@ class AdminController {
      * @param string $order : l'ordre de tri (asc ou desc).
      * @return array : le tableau trié.
      */
-    private function sortArticles(array $articles, string $column, string $order) : array
+    private function sortArticles(array $articles, string $column, string $order): array
     {
         // Le Collator compare les textes comme en français (accents et majuscules bien gérés).
         $collator = new Collator('fr_FR');
- 
+
         // usort() trie en appelant cette fonction sur deux articles à la fois.
         // Elle renvoie un nombre négatif si le premier passe avant le second, 0 si égalité, positif sinon.
         usort($articles, function (Article $first, Article $second) use ($column, $collator) {
@@ -181,12 +182,12 @@ class AdminController {
                 'comments' => $first->getCommentCount() <=> $second->getCommentCount()
             };
         });
- 
+
         // Le tri est croissant par défaut : pour l'ordre décroissant, on inverse le tableau.
         if ($order === 'desc') {
             $articles = array_reverse($articles);
         }
- 
+
         return $articles;
     }
 
@@ -194,7 +195,7 @@ class AdminController {
      * Affichage du formulaire de connexion.
      * @return void
      */
-    public function displayConnectionForm() : void 
+    public function displayConnectionForm(): void
     {
         $view = new View("Connexion");
         $view->render("connectionForm");
@@ -204,7 +205,7 @@ class AdminController {
      * Connexion de l'utilisateur.
      * @return void
      */
-    public function connectUser() : void 
+    public function connectUser(): void
     {
         // On récupère les données du formulaire.
         $login = Utils::request("login");
@@ -240,7 +241,7 @@ class AdminController {
      * Déconnexion de l'utilisateur.
      * @return void
      */
-    public function disconnectUser() : void 
+    public function disconnectUser(): void
     {
         // On déconnecte l'utilisateur.
         unset($_SESSION['user']);
@@ -253,7 +254,7 @@ class AdminController {
      * Affichage du formulaire d'ajout d'un article.
      * @return void
      */
-    public function showUpdateArticleForm() : void 
+    public function showUpdateArticleForm(): void
     {
         $this->checkIfUserIsConnected();
 
@@ -264,7 +265,7 @@ class AdminController {
         $articleManager = new ArticleManager();
         $article = $articleManager->getArticleById($id);
 
-        // Si l'article n'existe pas, on en crée un vide. 
+        // Si l'article n'existe pas, on en crée un vide.
         if (!$article) {
             $article = new Article();
         }
@@ -277,11 +278,11 @@ class AdminController {
     }
 
     /**
-     * Ajout et modification d'un article. 
+     * Ajout et modification d'un article.
      * On sait si un article est ajouté car l'id vaut -1.
      * @return void
      */
-    public function updateArticle() : void 
+    public function updateArticle(): void
     {
         $this->checkIfUserIsConnected();
 
@@ -316,7 +317,7 @@ class AdminController {
      * Suppression d'un article.
      * @return void
      */
-    public function deleteArticle() : void
+    public function deleteArticle(): void
     {
         $this->checkIfUserIsConnected();
 

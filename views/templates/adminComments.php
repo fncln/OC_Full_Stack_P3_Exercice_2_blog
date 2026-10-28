@@ -1,12 +1,14 @@
 <?php
+
     /**
      * Affichage des commentaires d'un article dans la partie admin.
      * Chaque commentaire a un bouton "Supprimer" qui mène à une page de confirmation.
-     * 
+     *
      * Variables reçues :
      * $article : l'article dont on affiche les commentaires.
      * $comments : les commentaires de cet article.
      */
+
 ?>
 
 <div class="comments adminComments">

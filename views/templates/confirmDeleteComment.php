@@ -1,12 +1,14 @@
 <?php
+
     /**
      * Page de confirmation avant la suppression d'un commentaire.
      * La suppression se fait avec un formulaire en POST (et pas avec un simple lien),
      * pour qu'un lien piégé ne puisse pas supprimer un commentaire à l'insu de l'administratrice.
-     * 
+     *
      * Variable reçue :
      * $comment : le commentaire à supprimer.
      */
+
 ?>
 
 <form action="index.php" method="post" class="foldedCorner">
